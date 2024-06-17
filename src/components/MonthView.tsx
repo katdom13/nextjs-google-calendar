@@ -12,7 +12,7 @@ const MonthView: FunctionComponent<MonthViewProps> = ({ month }) => {
       {month.map((row, x) => (
         <Fragment key={`row-${x}`}>
           {row.map((col, y) => (
-            <DateCell date={col} key={`col-${y}`}/>
+            <DateCell date={col} key={`col-${y}`} rowIdx={x}/>
           ))}
         </Fragment>
       ))}
