@@ -1,3 +1,5 @@
-export default function CalendarHeader() {
+const CalendarHeader = () => {
   return <></>
 }
+
+export default CalendarHeader
