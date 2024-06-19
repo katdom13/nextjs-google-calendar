@@ -1,19 +1,21 @@
 'use client'
 
 import { Dayjs } from 'dayjs';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { getMonthlyMatrix } from  '../utils'
 import CalendarHeader from './CalendarHeader';
 import Sidebar from './Sidebar';
 import MonthView from './MonthView';
+import CalendarContext from '@/context/CalendarContext';
 
 
 const Calendar = () => {
   const [currentMonth, setCurrentMonth] = useState<Dayjs[][]>(getMonthlyMatrix())
+  const { monthIdx } = useContext(CalendarContext)
 
   useEffect(() => {
-    console.table(getMonthlyMatrix())
-  }, [])
+    setCurrentMonth(getMonthlyMatrix(monthIdx))
+  }, [monthIdx])
 
   return (
     <div className='h-screen flex flex-col'>
