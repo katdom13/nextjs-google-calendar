@@ -2,7 +2,7 @@
 
 import { ReactNode, useState } from "react"
 import CalendarContext from "./CalendarContext"
-import dayjs from "dayjs"
+import dayjs, { Dayjs } from "dayjs"
 
 type ContextWrapperProps = {
   children: ReactNode
@@ -10,9 +10,10 @@ type ContextWrapperProps = {
 
 const ContextWrapper = ({children}: ContextWrapperProps) => {
   const [monthIdx, setMonthIdx] = useState(dayjs().month())
+  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null)
 
   return (
-    <CalendarContext.Provider value={{monthIdx, setMonthIdx}}>
+    <CalendarContext.Provider value={{monthIdx, setMonthIdx, selectedDate, setSelectedDate}}>
       {children}
     </CalendarContext.Provider>
   )

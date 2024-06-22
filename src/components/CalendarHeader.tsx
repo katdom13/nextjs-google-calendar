@@ -17,7 +17,9 @@ const CalendarHeader = () => {
   }
 
   const handleCurrentMonth = () => {
-    setMonthIdx(dayjs().month())
+    setMonthIdx(
+      monthIdx === dayjs().month() ? monthIdx + Math.random() : dayjs().month()
+    )
   }
 
   return (
