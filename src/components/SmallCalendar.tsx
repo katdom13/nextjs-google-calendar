@@ -1,3 +1,5 @@
+'use client'
+
 import CalendarContext from "@/context/CalendarContext"
 import { getMonthlyMatrix } from "@/utils"
 import dayjs, { Dayjs } from "dayjs"
@@ -22,7 +24,7 @@ const SmallCalendar = () => {
         const format = 'DD-MM-YY'
         const dateToday = dayjs().format(format)
         const formattedDate = date.format(format)
-        const formattedSelectedDate = selectedDate?.format('DD-MM-YY')
+        const formattedSelectedDate = selectedDate.format('DD-MM-YY')
 
         if (formattedDate === dateToday && dateToday === formattedSelectedDate) {
             return 'bg-blue-900 text-white rounded-full'

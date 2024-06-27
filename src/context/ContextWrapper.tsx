@@ -10,10 +10,11 @@ type ContextWrapperProps = {
 
 const ContextWrapper = ({children}: ContextWrapperProps) => {
   const [monthIdx, setMonthIdx] = useState(dayjs().month())
-  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null)
+  const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs())
+  const [showEventModal, setShowEventModal] = useState(false)
 
   return (
-    <CalendarContext.Provider value={{monthIdx, setMonthIdx, selectedDate, setSelectedDate}}>
+    <CalendarContext.Provider value={{monthIdx, setMonthIdx, selectedDate, setSelectedDate, showEventModal, setShowEventModal}}>
       {children}
     </CalendarContext.Provider>
   )

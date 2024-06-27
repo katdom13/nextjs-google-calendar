@@ -7,25 +7,29 @@ import CalendarHeader from './CalendarHeader';
 import Sidebar from './Sidebar';
 import MonthView from './MonthView';
 import CalendarContext from '@/context/CalendarContext';
+import EventModal from './EventModal';
 
 
 const Calendar = () => {
   const [currentMonth, setCurrentMonth] = useState<Dayjs[][]>(getMonthlyMatrix())
-  const { monthIdx } = useContext(CalendarContext)
+  const { monthIdx, showEventModal } = useContext(CalendarContext)
 
   useEffect(() => {
     setCurrentMonth(getMonthlyMatrix(monthIdx))
   }, [monthIdx])
 
   return (
-    <div className='h-screen flex flex-col'>
-      <CalendarHeader />
-      {/* Spans the whole column */}
-      <div className="flex flex-1">
-        <Sidebar />
-        <MonthView month={currentMonth}/>
+    <>
+      {showEventModal && (<EventModal />)}
+      <div className='h-screen flex flex-col'>
+        <CalendarHeader />
+        {/* Spans the whole column */}
+        <div className="flex flex-1">
+          <Sidebar />
+          <MonthView month={currentMonth}/>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

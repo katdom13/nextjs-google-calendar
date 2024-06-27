@@ -1,5 +1,8 @@
+'use client'
+
+import CalendarContext from '@/context/CalendarContext'
 import dayjs, { Dayjs } from 'dayjs'
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useContext } from 'react'
 
 type DateCellProps = {
   date: Dayjs
@@ -7,6 +10,8 @@ type DateCellProps = {
 }
 
 const DateCell: FunctionComponent<DateCellProps> = ({date, rowIdx}) => {
+  const { setSelectedDate, setShowEventModal } = useContext(CalendarContext)
+
   const getCurrentDateClass = (): string => {
     return date.format('DD-MM-YY') === dayjs().format('DD-MM-YY') ? 'bg-blue-600 text-white rounded-full w-7' : ''
   }
@@ -20,6 +25,12 @@ const DateCell: FunctionComponent<DateCellProps> = ({date, rowIdx}) => {
           {date.format('DD')}
         </p>
       </header>
+      <div className='flex-1 cursor-pointer' onClick={() => {
+        setSelectedDate(date)
+        setShowEventModal(true)
+      }}>
+        {''}
+      </div>
     </div>
   )
 }
