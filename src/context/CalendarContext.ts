@@ -2,6 +2,8 @@
 
 import dayjs, { Dayjs } from "dayjs"
 import { createContext, Dispatch, SetStateAction } from "react"
+import { EventDispatcherAction } from "./ContextWrapper";
+import { CalendarEvent } from "@/types";
 
 type CalendarContextType = {
   monthIdx: number;
@@ -10,6 +12,8 @@ type CalendarContextType = {
   setSelectedDate: Dispatch<SetStateAction<Dayjs>>;
   showEventModal: boolean,
   setShowEventModal: Dispatch<SetStateAction<boolean>>,
+  savedEvents: CalendarEvent[],
+  dispatchEvents: Dispatch<EventDispatcherAction>,
 }
 
 const CalendarContext = createContext<CalendarContextType>({
@@ -19,6 +23,8 @@ const CalendarContext = createContext<CalendarContextType>({
   setSelectedDate: () => {},
   showEventModal: false,
   setShowEventModal: () => {},
+  savedEvents: [],
+  dispatchEvents: () => {},
 })
 
 export default CalendarContext
