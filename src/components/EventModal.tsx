@@ -35,6 +35,7 @@ const EventModal = () => {
             date: selectedDate.toISOString(),
         }
         dispatchEvents({ 'type': 'create', payload: event })
+        setShowEventModal(false)
     }
 
     return (
