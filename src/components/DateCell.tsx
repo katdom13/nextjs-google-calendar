@@ -20,7 +20,12 @@ type DateCellProps = {
 }
 
 const DateCell: FunctionComponent<DateCellProps> = ({date, rowIdx}) => {
-  const { setSelectedDate, setShowEventModal, savedEvents } = useContext(CalendarContext)
+  const {
+    setSelectedDate,
+    setShowEventModal,
+    savedEvents,
+    setSelectedEvent
+  } = useContext(CalendarContext)
 
   const [dateEvents, setDateEvents] = useState<CalendarEvent[]>([])
 
@@ -51,7 +56,9 @@ const DateCell: FunctionComponent<DateCellProps> = ({date, rowIdx}) => {
         {dateEvents.map(event => (
           <div
             key={event.id}
-            className={`bg-${event.labelColor}-200 p-1 mr-3 text-gray-600 text-sm rounded mb-1 truncate`}>
+            className={`bg-${event.labelColor}-200 p-1 mr-3 text-gray-600 text-sm rounded mb-1 truncate`}
+            onClick={() => setSelectedEvent(event)}
+          >
             {event.title}
           </div>
         ))}

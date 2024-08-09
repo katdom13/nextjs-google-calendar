@@ -12,7 +12,7 @@ bg-purple-500
 import CalendarContext from '@/context/CalendarContext'
 import { CalendarEvent } from '@/types'
 import { revalidatePath } from 'next/cache'
-import { FormEvent, useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 const labelsClasses = ['indigo', 'gray', 'green', 'blue', 'red', 'purple']
 
@@ -23,20 +23,38 @@ type EventFormData = {
 
 const EventModal = () => {
     const [selectedLabelClass, setSelectedLabelClass] = useState(labelsClasses[0])
-    const { selectedDate, setShowEventModal, dispatchEvents } = useContext(CalendarContext)
+    const {
+        selectedDate,
+        setShowEventModal,
+        dispatchEvents,
+        selectedEvent,
+        setSelectedEvent
+    } = useContext(CalendarContext)
 
     // Parametrize this
     const saveEvent = async (formData: FormData) => {
         const event: CalendarEvent = {
-            id: Date.now(),
+            id: selectedEvent ? selectedEvent.id : Date.now(),
             title: formData.get('title')?.toString() || '',
             description: formData.get('description')?.toString() || '',
             labelColor: selectedLabelClass,
             date: selectedDate.toISOString(),
         }
-        dispatchEvents({ 'type': 'create', payload: event })
+        dispatchEvents({ 'type': selectedEvent ? 'update' : 'create', payload: event })
+
+        if (selectedEvent) {
+            setSelectedEvent(null)
+        }
+
         setShowEventModal(false)
+
+        revalidatePath('/')
     }
+
+    useEffect(() => {
+        if (!selectedEvent) return
+        setSelectedLabelClass(selectedEvent.labelColor)
+    }, [selectedEvent])
 
     return (
         <div className='h-screen w-full fixed left-0 top-0 flex justify-center items-center'>
@@ -60,6 +78,7 @@ const EventModal = () => {
                             placeholder='Add title'
                             required
                             className='pt-3 border-0 text-gray-600 text-xl font-semibold pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-500'
+                            defaultValue={selectedEvent?.title}
                         />
                         <span className='material-symbols-outlined text-gray-400'>
                             schedule
@@ -74,6 +93,7 @@ const EventModal = () => {
                             placeholder='Add a description'
                             required
                             className='pt-3 border-0 text-gray-600 pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-500'
+                            defaultValue={selectedEvent?.description}
                         />
                         <span className='material-symbols-outlined text-gray-400'>
                             bookmark_border

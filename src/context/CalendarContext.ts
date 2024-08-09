@@ -14,6 +14,8 @@ type CalendarContextType = {
   setShowEventModal: Dispatch<SetStateAction<boolean>>,
   savedEvents: CalendarEvent[],
   dispatchEvents: Dispatch<EventDispatcherAction>,
+  selectedEvent: CalendarEvent | null,
+  setSelectedEvent: Dispatch<SetStateAction<CalendarEvent | null>>,
 }
 
 const CalendarContext = createContext<CalendarContextType>({
@@ -25,6 +27,8 @@ const CalendarContext = createContext<CalendarContextType>({
   setShowEventModal: () => {},
   savedEvents: [],
   dispatchEvents: () => {},
+  selectedEvent: null,
+  setSelectedEvent: () => {},
 })
 
 export default CalendarContext

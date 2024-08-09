@@ -45,11 +45,18 @@ const ContextWrapper = ({children}: ContextWrapperProps) => {
   const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs())
   const [showEventModal, setShowEventModal] = useState(false)
   const [savedEvents, dispatchEvents] = useReducer(eventDispatcher, [], getInitialCalendarEvents)
+  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null)
 
   useEffect(() => {
     // Parametrize this
     localStorage.setItem('savedEvents', JSON.stringify(savedEvents))
   }, [savedEvents])
+
+  useEffect(() => {
+    if (!showEventModal && selectedEvent) {
+      setSelectedEvent(null)
+    }
+  }, [showEventModal, selectedEvent])
 
   return (
     <CalendarContext.Provider value={{
@@ -61,6 +68,8 @@ const ContextWrapper = ({children}: ContextWrapperProps) => {
       setShowEventModal,
       savedEvents,
       dispatchEvents,
+      selectedEvent,
+      setSelectedEvent,
     }}>
       {children}
     </CalendarContext.Provider>
