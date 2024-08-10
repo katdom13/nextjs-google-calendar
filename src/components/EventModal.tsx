@@ -63,11 +63,20 @@ const EventModal = () => {
                     <span className='material-symbols-outlined text-gray-400'>
                         drag_handle
                     </span>
-                    <button onClick={() => setShowEventModal(false)}>
-                        <span className='material-symbols-outlined text-gray-400'>
-                            close
-                        </span>
-                    </button>
+                    <div>                        
+                        { selectedEvent && (
+                            <button onClick={() => dispatchEvents({'type': 'delete', payload: selectedEvent})}>
+                                <span className='material-symbols-outlined text-gray-400'>
+                                    delete
+                                </span>
+                            </button>
+                        ) }
+                        <button onClick={() => setShowEventModal(false)}>
+                            <span className='material-symbols-outlined text-gray-400'>
+                                close
+                            </span>
+                        </button>
+                    </div> 
                 </header>
                 <div className='p-3'>
                     <div className='grid grid-cols-1/5 items-end gap-y-7'>
