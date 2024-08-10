@@ -23,18 +23,18 @@ const DateCell: FunctionComponent<DateCellProps> = ({date, rowIdx}) => {
   const {
     setSelectedDate,
     setShowEventModal,
-    savedEvents,
+    filteredEventsByLabel,
     setSelectedEvent
   } = useContext(CalendarContext)
 
   const [dateEvents, setDateEvents] = useState<CalendarEvent[]>([])
 
   useEffect(() => {
-    const events = savedEvents.filter(
+    const events = filteredEventsByLabel.filter(
       event => dayjs(event.date).format('DD-MM-YY') === date.format('DD-MM-YY')
     )
     setDateEvents(events)
-  }, [savedEvents, date])
+  }, [filteredEventsByLabel, date])
 
   const getCurrentDateClass = (): string => {
     return date.format('DD-MM-YY') === dayjs().format('DD-MM-YY') ? 'bg-blue-600 text-white rounded-full w-7' : ''

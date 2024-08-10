@@ -1,9 +1,9 @@
 'use client'
 
-import { ReactNode, useEffect, useReducer, useState } from "react"
+import { ReactNode, useEffect, useMemo, useReducer, useState } from "react"
 import CalendarContext from "./CalendarContext"
 import dayjs, { Dayjs } from "dayjs"
-import { CalendarEvent } from "@/types"
+import { CalendarEvent, Label } from "@/types"
 
 
 
@@ -46,10 +46,32 @@ const ContextWrapper = ({children}: ContextWrapperProps) => {
   const [showEventModal, setShowEventModal] = useState(false)
   const [savedEvents, dispatchEvents] = useReducer(eventDispatcher, [], getInitialCalendarEvents)
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null)
+  const [labels, setLabels] = useState<Label[]>([])
+
+  const filteredEventsByLabel = useMemo(() => (
+    savedEvents.filter(
+      event => labels.filter(label => label.checked)
+        .map(label => label.label)
+        .includes(event.labelColor)
+    )
+  ), [savedEvents, labels])
 
   useEffect(() => {
     // Parametrize this
     localStorage.setItem('savedEvents', JSON.stringify(savedEvents))
+
+    // Set labels
+    setLabels((prevLabels) => {
+      return [...new Set(savedEvents.map(event => event.labelColor))].map(
+        (label) => {
+          const currentLabel = prevLabels.find((lbl) => lbl.label === label)
+          return {
+            label,
+            checked: currentLabel?.checked || true
+          }
+        }
+      )
+    })
   }, [savedEvents])
 
   useEffect(() => {
@@ -70,6 +92,9 @@ const ContextWrapper = ({children}: ContextWrapperProps) => {
       dispatchEvents,
       selectedEvent,
       setSelectedEvent,
+      labels,
+      setLabels,
+      filteredEventsByLabel,
     }}>
       {children}
     </CalendarContext.Provider>

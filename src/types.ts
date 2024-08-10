@@ -8,3 +8,8 @@ export type CalendarEvent = {
     labelColor: string;
     date: string;
 }
+
+export type Label = {
+    label: string;
+    checked: boolean;
+}
